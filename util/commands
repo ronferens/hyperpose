@@ -1,0 +1,15 @@
+transposenet train /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/Cambridge/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_train.csv
+ms-transposenet train /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/CambridgeLandmarks/CAMBRIDGE_dataset/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/cambridge_four_scenes.csv
+
+ms-transposenet train /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/CambridgeLandmarks/CAMBRIDGE_dataset/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/cambridge_four_scenes.csv
+ms-transposenet test /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/CambridgeLandmarks/CAMBRIDGE_dataset/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv --checkpoint_path /home/maintenance/transposenet/out/run_09_12_20_16_56_checkpoint-300.pth
+
+
+ms-transposenet test /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/CambridgeLandmarks/CAMBRIDGE_dataset/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_KingsCollege_test.csv --checkpoint_path /home/maintenance/transposenet/out/run_07_12_20_00_14_final.pth
+run_11_12_20_17_20_checkpoint-100.pth
+
+ms-transposenet train /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/CambridgeLandmarks/CAMBRIDGE_dataset/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/cambridge_four_scenes.csv --checkpoint_path /home/maintenance/transposenet/out/run_09_12_20_16_56_checkpoin
+
+run_08_12_20_00_49_checkpoint-2
+
+abl-ms-transposenet test /home/maintenance/transposenet/models/backbones/efficient-net-b0.pth /mnt/data/CambridgeLandmarks/CAMBRIDGE_dataset/ /home/maintenance/transposenet/datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv --checkpoint_path /home/maintenance/transposenet/out/run_13_12_20_00_50_checkpoint-400.pth

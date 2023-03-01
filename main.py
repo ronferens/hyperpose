@@ -114,7 +114,7 @@ def main(cfg) -> None:
                 n_samples += batch_size
                 n_total_samples += batch_size
 
-                if freeze:  # For TransPoseNet
+                if freeze:
                     model.eval()
                     with torch.no_grad():
                         transformers_res = model.module.forward_transformers(minibatch)

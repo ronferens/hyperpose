@@ -36,10 +36,7 @@ To demostrate the performance of *HyperPose* a pre-trained model can be tested a
 7. Run the main.py file
 
 Once the evaluation is done, you should get the following output:
-
-<code>
-  Median pose error: 0.588[m], 2.394[deg]
-</code>
+`Median pose error: 0.588[m], 2.394[deg]`
 
 
 ## Training HyperPose

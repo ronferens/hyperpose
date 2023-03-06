@@ -24,7 +24,7 @@ To demostrate the performance of *HyperPose* a pre-trained model can be tested a
 2. Open the `./config/test.yaml` file and edit the `checkpoint_path`
 3. Make sure to download the Kings Colledge (*KingsCollege.zip*) scene from the [Cambridge Landmarks dataset website](https://www.repository.cam.ac.uk/handle/1810/251342) and update the `dataset_path` in the yaml file by setting the directory in which you've saved extracted the ZIP's conent.
 
-(For example: `'/home/dev/Data/cambridge'`)
+(For example: `dataset_path: '/home/dev/Data/cambridge'`)
 
 5. Update the `output_path` to set the location where to save the reported results
 6. Open the `main.py` file and modify running configuration to `config_name="test"` (in line 16)

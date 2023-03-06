@@ -18,7 +18,11 @@ Transformer-Encoders as hypernetworks.
 ![plot](./img/hyperpose_intro.png?raw=true "Title")
 
 
-## Demo
+## Install
+* The repository was developed and tested using python 3.8
+* Make sure to install the required packages by running - *pip install -r requirements.txt*
+
+## Demo - Evaluating pre-trained model
 To demostrate the performance of *HyperPose* a pre-trained model can be tested and evaluated.
 1. Download the pre-trained model for the Cambridge Landmarks' Kings Colledge scene from this [link](https://drive.google.com/file/d/1QFOR9dsQxsmiB-XjonGYteTuawHAUMGu/view?usp=share_link)
 2. Open the `./config/test.yaml` file and edit the `checkpoint_path`
@@ -27,10 +31,21 @@ To demostrate the performance of *HyperPose* a pre-trained model can be tested a
 (For example: `dataset_path: '/home/dev/Data/cambridge'`)
 
 5. Update the `output_path` to set the location where to save the reported results
-6. Open the `main.py` file and modify running configuration to `config_name="test"` (in line 16)
+6. Open the `main.py` file and modify running configuration to `config_name="test"` (line 16)
 7. Run the main.py file
 
 Once the evaluation is done, you should get the following output:
+
 <code>
   Median pose error: 0.588[m], 2.394[deg]
 </code>
+
+
+## Training HyperPose
+In order to train the model, you should prepare a configuration (.yaml) file to set the training parameters and the model's hyperparameters.
+For both the Cambridge Landmarks and 7-Scenes datasets, pre-defined configuration files can be found under the `./config` folders.
+1. Once you have downloaded the desired dataset, update the `dataset_path` field (same as in #4 in the demo section)
+2. Update the `config_name` field in the `main.py` file (line 16)
+3. Run the main.py file
+
+Checkpoints will be saved to the `output_path` you've set in the configuration file.

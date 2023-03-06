@@ -22,7 +22,8 @@ Transformer-Encoders as hypernetworks.
 To demostrate the performance of *HyperPose* a pre-trained model can be tested and evaluated.
 1. Download the pre-trained model for the Cambridge Landmarks' Kings Colledge scene from this [link](https://drive.google.com/file/d/1QFOR9dsQxsmiB-XjonGYteTuawHAUMGu/view?usp=share_link)
 2. Open the `./config/test.yaml` file and edit the `checkpoint_path`
-3. Make sure to download the Kings Colledge (`KingsCollege.zip`) scene from the [Cambridge Landmarks dataset website](https://www.repository.cam.ac.uk/handle/1810/251342) and update the `dataset_path'` in the yaml file by setting the directory in which you've saved extracted the ZIP's conent. (For example: `'/home/dev/Data/cambridge'')
-4. Update the `output_path` to set the location where to save the reported results
-5. Open the `main.py` file and modify running configuration to `config_name="test"` (in line 16)
-6. Run the main.py file
+3. Make sure to download the Kings Colledge (*KingsCollege.zip*) scene from the [Cambridge Landmarks dataset website](https://www.repository.cam.ac.uk/handle/1810/251342) and update the `dataset_path` in the yaml file by setting the directory in which you've saved extracted the ZIP's conent.
+(For example: `'/home/dev/Data/cambridge'')
+5. Update the `output_path` to set the location where to save the reported results
+6. Open the `main.py` file and modify running configuration to `config_name="test"` (in line 16)
+7. Run the main.py file

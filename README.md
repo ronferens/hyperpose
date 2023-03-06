@@ -22,6 +22,7 @@ Transformer-Encoders as hypernetworks.
 * The repository was developed and tested using python 3.8
 * Make sure to install the required packages by running - *pip install -r requirements.txt*
 
+
 ## Demo - Evaluating pre-trained model
 To demostrate the performance of *HyperPose* a pre-trained model can be tested and evaluated.
 1. Download the pre-trained model for the Cambridge Landmarks' Kings Colledge scene from this [link](https://drive.google.com/file/d/1QFOR9dsQxsmiB-XjonGYteTuawHAUMGu/view?usp=share_link)

@@ -3,10 +3,12 @@ inputs:
   mode: 'test'
   backbone_path: './models/backbones/efficient-net-b0.pth'
   dataset_path: null
-  labels_file: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv'
+  labels_file: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_KingsCollege_test.csv'
   checkpoint_path: null
   models_path: null
   models_to_evaluate: null
+  output_path: '/home/dev/Downloads'
+  experiment: null
 
 general:
   n_freq_print: 5

@@ -29,3 +29,8 @@ To demostrate the performance of *HyperPose* a pre-trained model can be tested a
 5. Update the `output_path` to set the location where to save the reported results
 6. Open the `main.py` file and modify running configuration to `config_name="test"` (in line 16)
 7. Run the main.py file
+
+Once the evaluation is done, you should get the following output:
+<code>
+  Median pose error: 0.588[m], 2.394[deg]
+</code>

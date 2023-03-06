@@ -2,10 +2,10 @@ inputs:
   model_name: 'hyperpose'
   mode: 'test'
   backbone_path: './models/backbones/efficient-net-b0.pth'
-  dataset_path: '/home/dev/Data/cambridge'
+  dataset_path: null
   labels_file: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv'
   checkpoint_path: null
-  models_path: '/media/dev/storage1/hyperpose_output/run_27_02_23_16_21'
+  models_path: null
   models_to_evaluate: null
 
 general:

@@ -2,11 +2,11 @@ inputs:
   model_name: 'hyperpose'
   mode: 'train'
   backbone_path: './models/backbones/efficient-net-b0.pth'
-  dataset_path: '/home/dev/Data/7scenes'
+  dataset_path: null
   labels_file: './datasets/7Scenes/abs_7scenes_pose.csv_heads_train.csv'
   checkpoint_path: null
   experiment: null
-  output_path: '/media/dev/storage1/hyperpose_output'
+  output_path: null
 
 general:
   n_freq_print: 5

@@ -107,4 +107,12 @@ class BasePoseLightningModule(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self._cfg.get('lr'))
-        return optimizer
+
+        # Setting learning-rate scheduler - Reduce On Plateau
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
+                                                               mode="min",
+                                                               factor=self._cfg.get('lr_scheduler_gamma'),
+                                                               patience=self._cfg.get('lr_scheduler_patience'),
+                                                               min_lr=self._cfg.get('min_lr'))
+
+        return {"optimizer": optimizer, "lr_scheduler": scheduler, "monitor": "val/loss"}

@@ -1,30 +1,15 @@
 inputs:
-  model_name: 'hyperpose'
+  model_name: 'posenet'
   mode: 'test'
   backbone_path: './models/backbones/efficient-net-b0.pth'
-  dataset_path: null
-  labels_file: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_KingsCollege_test.csv'
+  dataset_path: '/media/dev/data/datasets/cambridge'
+  testset_path: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv'
   checkpoint_path: null
   models_path: null
   models_to_evaluate: null
-  output_path: '/home/dev/Downloads'
-  experiment: null
+  output_path: '/media/dev/storage2/pose_trainer'
 
 general:
   n_freq_print: 5
-  n_workers: 4
-  devices_id: [0, 1, 2]
-  save_hyper_weights_to_file: False
-
-hyperpose:
-  num_encoder_layers: 6
-  dim_feedforward: 256
-  hidden_dim: 256
-  hyper_dim_t: 256
-  hyper_dim_rot: 512
-  use_quat_mul: False
-  nheads: 4
-  reduction:
-    t: 'reduction_4'
-    q: 'reduction_3'
-  use_prior_t_for_rot: False
+  batch_size: 128
+  n_epochs: 1

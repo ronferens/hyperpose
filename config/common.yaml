@@ -1,0 +1,9 @@
+general:
+  n_freq_print: 5
+  n_freq_checkpoint: 50 #10 #50
+  start_save_epoch: 200 #10 #200
+  n_workers: 4
+  devices_id: [0, 1, 2]
+  batch_size: 8
+  n_epochs: 4
+  save_hyper_weights_to_file: False

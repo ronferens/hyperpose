@@ -1,15 +1,8 @@
-from .hyperpose.HyperPose import HyperPose
+from .PoseNet import PoseNet
 
 
-def get_model(model_name, backbone_path, config):
-    """
-    Get the instance of the request model
-    :param model_name: (str) model name
-    :param backbone_path: (str) path to a .pth backbone
-    :param config: (dict) config file
-    :return: instance of the model (nn.Module)
-    """
-    if model_name == 'hyperpose':
-        return HyperPose(config, backbone_path)
+def get_model(model_name, config):
+    if model_name == 'posenet':
+        return PoseNet(config)
     else:
         raise "{} not supported".format(model_name)

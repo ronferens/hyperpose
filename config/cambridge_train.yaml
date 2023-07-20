@@ -1,24 +1,25 @@
 inputs:
-  model_name: 'hyperpose'
+  model_name: 'posenet'
   mode: 'train'
-  backbone_path: './models/backbones/efficient-net-b0.pth'
-  dataset_path: null
-  labels_file: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_train.csv'
-  checkpoint_path: null
+  dataset_path: '/media/dev/data/datasets/cambridge'
+  trainset_path: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_train.csv'
+  testset_path: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv'
+  checkpoint_path: '/media/dev/storage2/pose_trainer/run_20_07_23_17_49/ckpts/best/posenet_run_20_07_23_17_49_checkpoint-epoch_9.ckpt'
   experiment: null
-  output_path: null
+  output_path: '/media/dev/storage2/pose_trainer'
 
 general:
   n_freq_print: 5
-  n_freq_checkpoint: 50 #10 #50
-  start_save_epoch: 200 #10 #200
+  n_freq_checkpoint: 2
+  start_save_epoch: 200
   n_workers: 4
-  devices_id: [0, 1, 2]
   batch_size: 8
-  n_epochs: 1000 #200 #1000
+  n_epochs: 10
   save_hyper_weights_to_file: False
+  ckpt_dir_name: 'ckpts'
 
-hyperpose:
+posenet:
+  backbone_path: './models/backbones/efficient-net-b0.pth'
   loss:
     learnable: True
     s_x: -3

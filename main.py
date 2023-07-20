@@ -9,9 +9,10 @@ import hydra
 from omegaconf import OmegaConf
 import lightning as pl
 from lightning.pytorch.callbacks import ModelCheckpoint
+from lightning.pytorch.loggers import TensorBoardLogger
 
 
-@hydra.main(version_base=None, config_path="config", config_name="test")
+@hydra.main(version_base=None, config_path="config", config_name="cambridge_train")
 def main(cfg) -> None:
 
     # Initiate logger and output folder for the experiment
@@ -69,7 +70,8 @@ def main(cfg) -> None:
         model = load_model_from_checkpoint(cfg.inputs.model_name, cfg.inputs.checkpoint_path)
         logging.info("Initializing from checkpoint: {}".format(cfg.inputs.checkpoint_path))
     else:
-        assert cfg.inputs.mode == 'train', 'In test mode must supply a valid checkpoint'
+        if cfg.inputs.mode == 'test':
+            raise Exception('In test mode must supply a valid checkpoint')
         model_config = OmegaConf.to_container(cfg[cfg.inputs.model_name])
         model = get_model(cfg.inputs.model_name, model_config)
 
@@ -83,10 +85,12 @@ def main(cfg) -> None:
     # Set the seeds and the device
     pl.seed_everything()
 
+    logger = TensorBoardLogger("tb_logs", name="pose_trainer")
     trainer = pl.Trainer(max_epochs=cfg.general.n_epochs,
                          accelerator='auto',
                          devices='auto',
                          strategy='ddp_find_unused_parameters_true',
+                         logger=logger,
                          callbacks=callbacks)
 
     if cfg.inputs.mode == 'train':

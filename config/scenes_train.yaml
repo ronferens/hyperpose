@@ -11,15 +11,15 @@ inputs:
 general:
   n_freq_print: 5
   n_freq_checkpoint: 5
-  start_save_epoch: 10 #1 #10
+  start_save_epoch: 10
   n_workers: 4
   devices_id: [0, 1, 2]
   batch_size: 8
-  n_epochs: 75 #25 #75
+  n_epochs: 75
 
 hyperpose:
   loss:
-    learnable: False #True
+    learnable: True
     s_x: -3
     s_q: -6.5
     norm: 2
@@ -41,4 +41,3 @@ hyperpose:
     t: 'reduction_4'
     q: 'reduction_3'
   freeze_exclude_phrase: ['regressor_head_t', 'hypernet_t_fc_h1', 'hypernet_t_fc_h2', 'hypernet_t_fc_o']
-#  freeze_exclude_phrase: ['hypernet_rot_fc_h1', 'hypernet_rot_fc_h2', 'hypernet_rot_fc_o']

@@ -4,12 +4,10 @@ inputs:
   backbone_path: './models/backbones/efficient-net-b0.pth'
   dataset_path: '/media/dev/data/datasets/cambridge'
   testset_path: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv'
-  checkpoint_path: null
+  checkpoint_path: '/media/dev/storage2/pose_framework/run_22_07_23_08_12/ckpts/last/posenet_run_22_07_23_08_12_checkpoint-epoch_0.ckpt'
   models_path: null
   models_to_evaluate: null
   output_path: '/media/dev/storage2/pose_framework'
 
 general:
-  n_freq_print: 5
-  batch_size: 128
   n_epochs: 1

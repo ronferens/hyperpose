@@ -12,7 +12,7 @@ from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
 
 
-@hydra.main(version_base=None, config_path="config", config_name="cambrdige_train")
+@hydra.main(version_base=None, config_path="config", config_name="cambridge_train")
 def main(cfg) -> None:
 
     # Initiate logger and output folder for the experiment

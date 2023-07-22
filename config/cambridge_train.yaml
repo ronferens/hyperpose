@@ -11,7 +11,7 @@ general:
   n_freq_print: 5
   n_freq_checkpoint: 2
   batch_size: 64
-  n_epochs: 200
+  n_epochs: 3
   ckpt_dir_name: 'ckpts'
 
 posenet:

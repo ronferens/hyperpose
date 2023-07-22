@@ -37,7 +37,7 @@ def main(cfg) -> None:
         best_ckpt_callback = ModelCheckpoint(dirpath=os.path.join(log_path, cfg.general.ckpt_dir_name, 'best'),
                                              auto_insert_metric_name=False,
                                              save_top_k=5,
-                                             monitor='val/loss',
+                                             monitor='loss/val',
                                              filename=save_format,
                                              verbose=True)
         callbacks.append(best_ckpt_callback)
@@ -84,8 +84,9 @@ def main(cfg) -> None:
     # --------------------
     # Set the seeds and the device
     pl.seed_everything()
+    trainer = None
 
-    logger = TensorBoardLogger("tb_logs", name="pose_framework")
+    logger = TensorBoardLogger('tb_logs', name='pose_framework_' + utils.get_stamp_from_log(), default_hp_metric=False)
 
     if cfg.inputs.mode == 'train':
         # Training the model
@@ -100,12 +101,10 @@ def main(cfg) -> None:
                     train_dataloaders=train_dataloader,
                     val_dataloaders=val_dataloader)
 
-        if trainer.global_rank == 0:
-            logging.info("Training ended")
-
     # Testing the model
-    trainer = pl.Trainer(accelerator='auto', devices=1, logger=logger)
-    trainer.test(model, test_dataloader)
+    if trainer is None or trainer.global_rank == 0:
+        tester = pl.Trainer(accelerator='auto', devices=1, logger=logger)
+        tester.test(model, test_dataloader)
 
 
 if __name__ == "__main__":

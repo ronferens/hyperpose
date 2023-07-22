@@ -8,6 +8,3 @@ inputs:
   models_path: null
   models_to_evaluate: null
   output_path: '/media/dev/storage2/pose_framework'
-
-general:
-  n_epochs: 1

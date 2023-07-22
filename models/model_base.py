@@ -29,7 +29,7 @@ class BasePoseLightningModule(pl.LightningModule):
         input, pose_gt = batch.get('img'), batch.get('pose')
         output = self.forward(input)
         loss = self._pose_loss(output, pose_gt)
-        self.log("train/loss", loss, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("loss/train", loss, on_step=False, on_epoch=True, sync_dist=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -43,7 +43,7 @@ class BasePoseLightningModule(pl.LightningModule):
         self._validation_step_outputs['posit_err'].append(posit_err)
         self._validation_step_outputs['orient_err'].append(orient_err)
 
-        self.log("val/loss", loss, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("loss/val", torch.mean(orient_err, dim=0), on_step=True, on_epoch=True, sync_dist=True)
         return loss
 
     def on_validation_epoch_end(self) -> None:
@@ -67,6 +67,9 @@ class BasePoseLightningModule(pl.LightningModule):
                                                                                  torch.mean(epoch_val_orient_err, dim=0)
                                                                                  ))
 
+            self.log("pose/orient_err/val", torch.mean(epoch_val_pose_err, dim=0), on_step=False, on_epoch=True)
+            self.log("pose/trans_err/val", torch.mean(epoch_val_orient_err, dim=0), on_step=False, on_epoch=True)
+
         self._validation_step_outputs = self._reset_accumulated_outputs()
 
     def test_step(self, batch, batch_idx):
@@ -80,30 +83,8 @@ class BasePoseLightningModule(pl.LightningModule):
         self._test_step_outputs['posit_err'].append(posit_err)
         self._test_step_outputs['orient_err'].append(orient_err)
 
-        self.log("test/loss", loss, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("loss/test", loss, on_step=True, on_epoch=True, sync_dist=True)
         return loss
-
-    # def on_test_epoch_end(self) -> None:
-    #     epoch_test_loss = torch.cat(self._test_step_outputs['loss'], dim=0)
-    #     epoch_test_loss = self.all_gather(epoch_test_loss)
-    #     epoch_test_loss = epoch_test_loss.view(1, -1)
-    #
-    #     epoch_test_pose_err = torch.cat(self._test_step_outputs['posit_err'], dim=0)
-    #     epoch_test_pose_err = self.all_gather(epoch_test_pose_err)
-    #     epoch_test_pose_err = epoch_test_pose_err.view(self.trainer.world_size * epoch_test_pose_err.shape[1])
-    #
-    #     epoch_test_orient_err = torch.cat(self._test_step_outputs['orient_err'], dim=0)
-    #     epoch_test_orient_err = self.all_gather(epoch_test_orient_err)
-    #     epoch_test_orient_err = epoch_test_orient_err.view(self.trainer.world_size * epoch_test_orient_err.shape[1])
-    #
-    #     if self.trainer.global_rank == 0:
-    #         logging.info("Test summary:")
-    #         logging.info("\t* Number of test files: {}".format(epoch_test_pose_err.shape[0]))
-    #         logging.info("\t* Camera pose loss={:.3f}".format(torch.mean(epoch_test_loss)))
-    #         logging.info("\t* Pose error: {:.2f}[m], {:.2f}[deg]".format(torch.mean(epoch_test_pose_err, dim=0),
-    #                                                                        torch.mean(epoch_test_orient_err, dim=0)))
-    #
-    #     self._test_step_outputs = self._reset_accumulated_outputs()
 
     def on_test_epoch_end(self) -> None:
         logging.info("test ended successfully")
@@ -114,10 +95,13 @@ class BasePoseLightningModule(pl.LightningModule):
         if self.trainer.global_rank == 0:
             logging.info("Test summary:")
             logging.info("=============")
-            logging.info("\t* Number of test files: {}".format(epoch_test_pose_err.shape[0]))
-            logging.info("\t* Camera pose loss={:.3f}".format(torch.mean(epoch_test_loss)))
-            logging.info("\t* Pose error: {:.2f}[m], {:.2f}[deg]".format(torch.mean(epoch_test_pose_err),
-                                                                         torch.mean(epoch_test_orient_err)))
+            logging.info(" * Number of test files: {}".format(epoch_test_pose_err.shape[0]))
+            logging.info(" * Camera pose loss={:.3f}".format(torch.mean(epoch_test_loss)))
+            logging.info(" * Pose error: {:.2f}[m], {:.2f}[deg]".format(torch.mean(epoch_test_pose_err),
+                                                                        torch.mean(epoch_test_orient_err)))
+
+            self.log("pose/orient_err/test", torch.mean(epoch_test_pose_err), on_step=False, on_epoch=True, sync_dist=True)
+            self.log("pose/trans_err/test", torch.mean(epoch_test_orient_err), on_step=False, on_epoch=True, sync_dist=True)
 
         self._test_step_outputs = self._reset_accumulated_outputs()
 
@@ -131,4 +115,4 @@ class BasePoseLightningModule(pl.LightningModule):
                                                                patience=self._cfg.get('lr_scheduler_patience'),
                                                                min_lr=self._cfg.get('min_lr'))
 
-        return {"optimizer": optimizer, "lr_scheduler": scheduler, "monitor": "val/loss"}
+        return {"optimizer": optimizer, "lr_scheduler": scheduler, "monitor": "loss/val"}

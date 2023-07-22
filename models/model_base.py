@@ -83,25 +83,41 @@ class BasePoseLightningModule(pl.LightningModule):
         self.log("test/loss", loss, on_step=True, on_epoch=True, sync_dist=True)
         return loss
 
+    # def on_test_epoch_end(self) -> None:
+    #     epoch_test_loss = torch.cat(self._test_step_outputs['loss'], dim=0)
+    #     epoch_test_loss = self.all_gather(epoch_test_loss)
+    #     epoch_test_loss = epoch_test_loss.view(1, -1)
+    #
+    #     epoch_test_pose_err = torch.cat(self._test_step_outputs['posit_err'], dim=0)
+    #     epoch_test_pose_err = self.all_gather(epoch_test_pose_err)
+    #     epoch_test_pose_err = epoch_test_pose_err.view(self.trainer.world_size * epoch_test_pose_err.shape[1])
+    #
+    #     epoch_test_orient_err = torch.cat(self._test_step_outputs['orient_err'], dim=0)
+    #     epoch_test_orient_err = self.all_gather(epoch_test_orient_err)
+    #     epoch_test_orient_err = epoch_test_orient_err.view(self.trainer.world_size * epoch_test_orient_err.shape[1])
+    #
+    #     if self.trainer.global_rank == 0:
+    #         logging.info("Test summary:")
+    #         logging.info("\t* Number of test files: {}".format(epoch_test_pose_err.shape[0]))
+    #         logging.info("\t* Camera pose loss={:.3f}".format(torch.mean(epoch_test_loss)))
+    #         logging.info("\t* Pose error: {:.2f}[m], {:.2f}[deg]".format(torch.mean(epoch_test_pose_err, dim=0),
+    #                                                                        torch.mean(epoch_test_orient_err, dim=0)))
+    #
+    #     self._test_step_outputs = self._reset_accumulated_outputs()
+
     def on_test_epoch_end(self) -> None:
-        epoch_test_loss = torch.cat(self._test_step_outputs['loss'], dim=0)
-        epoch_test_loss = self.all_gather(epoch_test_loss)
-        epoch_test_loss = epoch_test_loss.view(1, -1)
-
-        epoch_test_pose_err = torch.cat(self._test_step_outputs['posit_err'], dim=0)
-        epoch_test_pose_err = self.all_gather(epoch_test_pose_err)
-        epoch_test_pose_err = epoch_test_pose_err.view(self.trainer.world_size * epoch_test_pose_err.shape[1])
-
-        epoch_test_orient_err = torch.cat(self._test_step_outputs['orient_err'], dim=0)
-        epoch_test_orient_err = self.all_gather(epoch_test_orient_err)
-        epoch_test_orient_err = epoch_test_orient_err.view(self.trainer.world_size * epoch_test_orient_err.shape[1])
+        logging.info("test ended successfully")
+        epoch_test_loss = torch.squeeze(torch.cat(self._test_step_outputs['loss'], dim=0))
+        epoch_test_pose_err = torch.squeeze(torch.cat(self._test_step_outputs['posit_err'], dim=0))
+        epoch_test_orient_err = torch.squeeze(torch.cat(self._test_step_outputs['orient_err'], dim=0))
 
         if self.trainer.global_rank == 0:
-            logging.info("Test results: camera pose loss={:.3f}, "
-                         "Mean camera pose error: {:.2f}[m], {:.2f}[deg]".format(torch.mean(epoch_test_loss),
-                                                                                 torch.mean(epoch_test_pose_err, dim=0),
-                                                                                 torch.mean(epoch_test_orient_err, dim=0)
-                                                                                 ))
+            logging.info("Test summary:")
+            logging.info("=============")
+            logging.info("\t* Number of test files: {}".format(epoch_test_pose_err.shape[0]))
+            logging.info("\t* Camera pose loss={:.3f}".format(torch.mean(epoch_test_loss)))
+            logging.info("\t* Pose error: {:.2f}[m], {:.2f}[deg]".format(torch.mean(epoch_test_pose_err),
+                                                                         torch.mean(epoch_test_orient_err)))
 
         self._test_step_outputs = self._reset_accumulated_outputs()
 

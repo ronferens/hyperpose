@@ -12,7 +12,7 @@ from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
 
 
-@hydra.main(version_base=None, config_path="config", config_name="cambridge_train")
+@hydra.main(version_base=None, config_path="config", config_name="cambrdige_train")
 def main(cfg) -> None:
 
     # Initiate logger and output folder for the experiment
@@ -22,7 +22,6 @@ def main(cfg) -> None:
     # --------------------
     # Data and CBs
     # --------------------
-    callbacks = []
     if cfg.inputs.mode == 'train':
         # Setting the train and validation datasets
         transform = utils.train_transforms.get('baseline')
@@ -34,6 +33,7 @@ def main(cfg) -> None:
 
         # Model checkpoint saving callbacks
         save_format = f"{cfg.inputs.model_name}_{utils.get_stamp_from_log()}_checkpoint-" + "epoch_{epoch}"
+        callbacks = []
         best_ckpt_callback = ModelCheckpoint(dirpath=os.path.join(log_path, cfg.general.ckpt_dir_name, 'best'),
                                              auto_insert_metric_name=False,
                                              save_top_k=5,
@@ -59,7 +59,7 @@ def main(cfg) -> None:
     # Setting the test datasets
     transform = utils.test_transforms.get('baseline')
     dataset = CameraPoseDataset(cfg.inputs.dataset_path, cfg.inputs.testset_path, transform)
-    test_dataloader = torch.utils.data.DataLoader(dataset, batch_size=cfg.general.batch_size, shuffle=False)
+    test_dataloader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False)
     logging.info("Using testing labels file: {}".format(cfg.inputs.testset_path))
 
     # --------------------
@@ -85,19 +85,26 @@ def main(cfg) -> None:
     # Set the seeds and the device
     pl.seed_everything()
 
-    logger = TensorBoardLogger("tb_logs", name="pose_trainer")
-    trainer = pl.Trainer(max_epochs=cfg.general.n_epochs,
-                         accelerator='auto',
-                         devices='auto',
-                         strategy='ddp_find_unused_parameters_true',
-                         logger=logger,
-                         callbacks=callbacks)
+    logger = TensorBoardLogger("tb_logs", name="pose_framework")
 
     if cfg.inputs.mode == 'train':
+        # Training the model
+        trainer = pl.Trainer(max_epochs=cfg.general.n_epochs,
+                             accelerator='auto',
+                             devices='auto',
+                             strategy='ddp_find_unused_parameters_true',
+                             logger=logger,
+                             callbacks=callbacks)
+
         trainer.fit(model,
                     train_dataloaders=train_dataloader,
                     val_dataloaders=val_dataloader)
 
+        if trainer.global_rank == 0:
+            logging.info("Training ended")
+
+    # Testing the model
+    trainer = pl.Trainer(accelerator='auto', devices=1, logger=logger)
     trainer.test(model, test_dataloader)
 
 

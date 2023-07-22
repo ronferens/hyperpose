@@ -5,13 +5,13 @@ inputs:
   trainset_path: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_train.csv'
   testset_path: './datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_test.csv'
   checkpoint_path: null
-  output_path: '/media/dev/storage2/pose_trainer'
+  output_path: '/media/dev/storage2/pose_framework'
 
 general:
   n_freq_print: 5
   n_freq_checkpoint: 2
-  batch_size: 128
-  n_epochs: 10
+  batch_size: 64
+  n_epochs: 200
   ckpt_dir_name: 'ckpts'
 
 posenet:

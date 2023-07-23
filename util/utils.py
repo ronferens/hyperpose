@@ -2,7 +2,7 @@ import logging
 import logging.config
 import PIL
 import json
-from os.path import join, exists, split, realpath
+from os.path import join, exists, split, realpath, basename
 import time
 from os import makedirs, getcwd
 import torch
@@ -11,6 +11,10 @@ import numpy as np
 import torch.nn.functional as F
 from torchvision import transforms
 from omegaconf import OmegaConf
+import os
+from fnmatch import fnmatch
+import typing
+import re
 
 
 ##########################
@@ -65,6 +69,20 @@ def init_logger(outpath: str = None, suffix: str = None) -> str:
         # disable external modules' loggers (level warning and below)
         logging.getLogger(PIL.__name__).setLevel(logging.WARNING)
         return log_path
+
+
+def get_checkpoint_list(path: str) -> typing.List[str]:
+    ckpts_list = {'ckpts': {}}
+    for path, subdirs, files in os.walk(path):
+        for name in sorted(files):
+            if fnmatch(name, "*.ckpt"):
+                m = re.match(".+_checkpoint-epoch_(\d+).ckpt", name)
+                if m is not None:
+                    ckpts_list['ckpts'][int(m.group(1))] = join(path, name)
+                elif 'last' in name:
+                    ckpts_list['last'] = join(path, name)
+
+    return ckpts_list
 
 
 ##########################

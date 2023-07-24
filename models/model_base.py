@@ -83,7 +83,7 @@ class BasePoseLightningModule(pl.LightningModule):
         self._test_step_outputs['posit_err'].append(posit_err)
         self._test_step_outputs['orient_err'].append(orient_err)
 
-        self.log("loss/test", loss, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("loss/test", loss, on_step=False, on_epoch=True, sync_dist=True)
         return loss
 
     def on_test_epoch_end(self) -> None:

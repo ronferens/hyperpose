@@ -1,9 +1,12 @@
+defaults:
+  - _self_
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
 general:
   n_freq_print: 5
-  n_freq_checkpoint: 50 #10 #50
-  start_save_epoch: 200 #10 #200
-  n_workers: 4
-  devices_id: [0, 1, 2]
+  n_freq_checkpoint: 25
+  start_save_epoch: 200
+  ckpt_dir_name: 'ckpts'
   batch_size: 8
-  n_epochs: 4
-  save_hyper_weights_to_file: False
+  n_epochs: 500

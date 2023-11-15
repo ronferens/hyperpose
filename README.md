@@ -15,7 +15,7 @@ contemporary datasets. To the best of our knowledge, this is the first
 instance of using hypernetworks in camera pose regression, as well as using
 Transformer-Encoders as hypernetworks.
 
-![plot](./img/hyper_intro1.pdf?raw=true "Title")
+![plot](./img/hyperpose_intro.png?raw=true "Title")
 
 
 ## Install

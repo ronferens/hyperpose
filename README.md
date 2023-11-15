@@ -19,11 +19,11 @@ our source code and pre-trained models openly available.
 ![plot](./img/hyperpose_intro.png?raw=true "Title")
 
 
-## Install
+# Install
 * The repository was developed and tested using python 3.8
 * Make sure to install the required packages by running - *pip install -r requirements.txt*
 
-## Data
+# Data
 * The implemented framework currently supports the [7Scenes](https://www.microsoft.com/en-us/research/project/rgb-d-dataset-7-scenes/) and [Cambridge Landmarks](https://www.repository.cam.ac.uk/items/53788265-cb98-42ee-b85b-7a0cbc8eddb3) Landmarks datasets. Support for additional datasets can be added by implementing a custom PyTorch dataloader and placing it in the data directory.
 * Please make sure to downlaod and perform any prerequisite steps requied to prepare the data for training/testing
 

@@ -1,0 +1,76 @@
+{
+  "general": {
+    "n_freq_print": 5,
+    "n_freq_checkpoint": 5,
+    "n_workers": 4,
+    "device_id": "cuda:0"
+  },
+  "hyperpose": {
+    "batch_size": 8,
+    "learnable": true,
+    "s_x": 0.0,
+    "s_q": 0.0,
+    "norm": 2,
+    "lr": 1e-4,
+    "weight_decay": 1e-4,
+    "eps": 1e-10,
+    "lr_scheduler_step_size": 5,
+    "lr_scheduler_gamma": 0.75,
+    "n_epochs": 10,
+    "hyper_dim_t": 256,
+    "hyper_dim_rot": 512,
+    "backbone_type": "efficientnet",
+    "freeze": false,
+    "freeze_exclude_phrase": [
+      "hyper_in_t_proj",
+      "hyper_in_t",
+      "hyper_in_t_fc_2",
+      "hypernet_t_fc_h2"
+    ],
+    "no_augment": false
+  },
+  "mshyperpose": {
+    "batch_size": 8,
+    "equalize_scenes": false,
+    "num_scenes": 7,
+    "learnable": true,
+    "s_x": 0.0,
+    "s_q": 0.0,
+    "lr": 1e-4,
+    "norm": 2,
+    "weight_decay": 1e-4,
+    "eps": 1e-10,
+    "lr_scheduler_gamma": 0.75,
+    "lr_scheduler_step_size": 10,
+    "n_epochs": 50,
+    "num_t_encoder_layers": 4,
+    "num_t_decoder_layers": 4,
+    "num_rot_encoder_layers": 4,
+    "num_rot_decoder_layers": 4,
+    "dim_feedforward": 256,
+    "hidden_dim": 256,
+    "reg_hidden_dim": 1024,
+    "hyper_dim_t": 256,
+    "hyper_dim_rot": 512,
+    "hyper_t_hidden_scale": 0.5,
+    "dropout": 0.1,
+    "nheads": 4,
+    "reduction": [
+      "reduction_4",
+      "reduction_3"
+    ],
+    "freeze": false,
+    "freeze_exclude_phrase": [
+      "hyper_in_rot_proj",
+      "hyper_in_rot_fc_0",
+      "hyper_in_rot_fc_1",
+      "hyper_in_rot_fc_2",
+      "regressor_hyper_rot",
+      "regressor_head_rot",
+      "transformer_rot",
+      "input_proj_rot"
+    ],
+    "no_augment": false
+  }
+}
+

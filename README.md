@@ -30,14 +30,14 @@ our source code and pre-trained models openly available.
 # Running the Code
 The repository contains four main scripts the perform training and testing of single- and multi-scene APRs.
 
-## Training a single-scene model
+### Training a single-scene model
 To train a single-scene model, run the `main_single_scene.py` script using the following arguments:
 ```
 python main_single_scene.py hyperpose train ./models/backbones/efficient-net-b0.pth /media/dev/data/datasets/cambridge ./datasets/CambridgeLandmarks/abs_cambridge_pose_sorted.csv_ShopFacade_train.csv ./configs/CambridgeLandmarks_config.json --output_path ./models
 ```
 In the example adove a new model will be trained for the *Shop Facade* scene in the *Cambridge Landmarks* dataset.
 
-## Testing a pre-trained single-scene model
+### Testing a pre-trained single-scene model
 For testing a pre-trained single-scene model, run the `main_single_scene.py` script using the following arguments:
 ```
 python main_single_scene.py hyperpose test ./models/backbones/efficient-net-b0.pth /media/dev/data/datasets/7scenes ./datasets/7Scenes/abs_7scenes_pose.csv_stairs_test.csv ./configs/7Scenes_config.json
@@ -55,14 +55,14 @@ Here, we evaluate the all checkpoint saved in the *./models/run_23_11_15_13_47_0
 
 Once the batch evaluate in done, both a .csv file and .html file will be saved with details position and orientation estimation for each checkpoint.
 
-## Training an MS-HyperPose model
+### Training an MS-HyperPose model
 To train a new MS-HyperPose model, run the `main_multi_scene.py` script using the following arguments:
 ```
 python main_multi_scene.py mshyperpose train ./models/backbones/efficient-net-b0.pth /media/dev/data/datasets/7Scenes ./datasets/7Scenes/7scenes_all_scenes.csv ./configs/7Scenes_config.json --output_path ./models
 ```
 In the example adove a new MS-HyperPose model will be trained for the entire set of scenes in the *7Scenes* dataset.
 
-## Testing a pre-trained MS-HyperPose model
+### Testing a pre-trained MS-HyperPose model
 For testing a pre-trained MS-HyperPose model, run the `main_multi_scene.py` script using the following arguments:
 ```
 python main_multi_scene.py mshyperpose test ./models/backbones/efficient-net-b0.pth /media/dev/data/datasets/7scenes ./datasets/7Scenes/7scenes_all_scenes.csv ./configs/7Scenes_config.json

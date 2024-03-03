@@ -26,7 +26,7 @@ our source code and pre-trained models openly available.
 # Data
 * The implemented framework currently supports the [7Scenes](https://www.microsoft.com/en-us/research/project/rgb-d-dataset-7-scenes/) and [Cambridge Landmarks](https://www.repository.cam.ac.uk/items/53788265-cb98-42ee-b85b-7a0cbc8eddb3) Landmarks datasets. Support for additional datasets can be added by implementing a custom PyTorch dataloader and placing it in the data directory.
 * Please make sure to downlaod and perform any prerequisite steps requied to prepare the data for training/testing
-* All out pre-trained models are available for download in this [link]([https://www.dropbox.com/scl/fo/wcstx2xc8oolcfkk3z3tz/h?rlkey=ru6iiy106ahwa2zv14ifvbzsf&dl=0](https://drive.google.com/drive/folders/1wFzxEi902kT9RCd4Mg24Vo44k2i1_99l))
+* All out pre-trained models are available for download in this [link](https://drive.google.com/drive/folders/1wFzxEi902kT9RCd4Mg24Vo44k2i1_99l)
 
 # Running the Code
 The repository contains four main scripts the perform training and testing of single- and multi-scene APRs.

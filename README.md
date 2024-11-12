@@ -28,7 +28,7 @@ multi-scene architectures. We have made our source code, pre-trained models, and
   the data directory.
 * Please make sure to download and perform any prerequisite steps requied to prepare the data for training/testing
 * All out pre-trained models are available for download in
-  this [link](https://drive.google.com/drive/folders/1wFzxEi902kT9RCd4Mg24Vo44k2i1_99l)
+  this [link]()
 
 ## Extended Cambridge Landmarks (ECL) Dataset
 

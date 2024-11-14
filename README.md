@@ -18,7 +18,7 @@ In this work, we propose ***HyperPose***, which utilizes hypernetworks in absolu
   the data directory.
 * Please make sure to download and perform any prerequisite steps requied to prepare the data for training/testing
 * All out pre-trained models are available for download in
-  this [link](https://www.dropbox.com/scl/fo/2awkwzflg9kx77a3l4oj8/AJzdFPnbBlk2gzUvvC5bhDE?rlkey=7x3dlr5tx21wbgg4nz6w9szju&st=tc7w88xm&dl=0)
+  this [link]() - COMING SOON.
 
 ## Extended Cambridge Landmarks (ECL) Dataset
 

@@ -1,16 +1,6 @@
 # HyperPose: Hypernetwork-Infused Camera Pose Localization and an Extended Cambridge Landmarks Dataset
 
-In this work we propose ``HyperPose'' an approach for using hypernetworks in absolute camera pose regressors. The
-inherent appearance variations in natural scenes, due to environmental conditions, perspective, and lighting, induce a
-notable domain disparity between the training and test datasets, degrading the precision of contemporary localization
-networks. To mitigate this, we advocate incorporating hypernetworks into both single-scene and multiscene camera pose
-regression models. During the inference phase, the hypernetwork dynamically computes adaptive weights for the
-localization regression heads based on the input image, effectively narrowing the domain gap. We evaluate the HyperPose
-methodology across multiple established absolute pose regression architectures using indoor and outdoor datasets. In
-particular, we introduce and share the Extended Cambridge Landmarks (ECL), that is a novel localization dataset, based
-on the Cambridge Landmarks dataset, showing it in multiple seasons with significantly varying appearance conditions. Our
-empirical experiments demonstrate that HyperPose yields notable performance enhancements, for both single- and
-multi-scene architectures. We have made our source code, pre-trained models, and ECL dataset openly available.
+In this work, we propose ***HyperPose***, which utilizes hypernetworks in absolute camera pose regressors. The inherent appearance variations in natural scenes, attributable to environmental conditions, perspective, and lighting, induce a significant domain disparity between the training and test datasets. This disparity degrades the precision of contemporary localization networks. To mitigate this, we advocate for incorporating hypernetworks into single-scene and multiscene camera pose regression models. During inference, the hypernetwork dynamically computes adaptive weights for the localization regression heads based on the particular input image, effectively narrowing the domain gap. Using indoor and outdoor datasets, we evaluate the HyperPose methodology across multiple established absolute pose regression architectures. We also introduce and share the Extended Cambridge Landmarks (ECL), a novel localization dataset, based on the Cambridge Landmarks dataset, showing it in multiple seasons with significantly varying appearance conditions. Our empirical experiments demonstrate that HyperPose yields notable performance enhancements for single- and multi-scene architectures.
 
 ![plot](./img/hyperpose_intro.png?raw=true "Title")
 
@@ -28,7 +18,7 @@ multi-scene architectures. We have made our source code, pre-trained models, and
   the data directory.
 * Please make sure to download and perform any prerequisite steps requied to prepare the data for training/testing
 * All out pre-trained models are available for download in
-  this [link]()
+  this [link](https://www.dropbox.com/scl/fo/2awkwzflg9kx77a3l4oj8/AJzdFPnbBlk2gzUvvC5bhDE?rlkey=7x3dlr5tx21wbgg4nz6w9szju&st=tc7w88xm&dl=0)
 
 ## Extended Cambridge Landmarks (ECL) Dataset
 

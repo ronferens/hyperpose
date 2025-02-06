@@ -48,7 +48,7 @@ class CameraPoseDataset(Dataset):
         if self.transform:
             img = self.transform(img)
 
-        sample = {'img': img, 'pose': pose, 'scene': scene}
+        sample = {'img': img, 'pose': pose, 'scene': scene, 'img_path': self.img_paths[idx]}
         return sample
 
 

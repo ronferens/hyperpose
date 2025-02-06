@@ -47,12 +47,15 @@ class PoseNet(nn.Module):
         :return: (torch.Tensor) dictionary with key-value 'pose' -- 7-dimensional absolute pose for (N X 7)
         """
         x = self.forward_backbone(samples)
+
+        x_embs = x.cpu().detach().numpy().flatten()
+
         x = self.dropout(F.relu(self.fc1(x)))
         p_x = self.fc2(x)
         p_q = self.fc3(x)
 
         est_pose = torch.cat((p_x, p_q), dim=1)
-        return est_pose
+        return est_pose, x_embs
 
 
 class EffPoseNet(PoseNet):

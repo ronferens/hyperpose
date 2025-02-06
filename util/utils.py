@@ -5,9 +5,7 @@ import json
 from os.path import join, exists, split, realpath
 import time
 from os import makedirs, getcwd, listdir
-from os.path import isfile
 import torch
-import matplotlib.pyplot as plt
 import numpy as np
 import torch.nn.functional as F
 from torchvision import transforms
@@ -107,19 +105,6 @@ def pose_err(est_pose, gt_pose):
                            gt_pose_q.view(gt_pose_q.shape[0], gt_pose_q.shape[1], 1))
     orient_err = 2 * torch.acos(torch.abs(inner_prod)) * 180 / np.pi
     return posit_err, orient_err
-
-
-##########################
-# Plotting utils
-##########################
-def plot_loss_func(sample_count, loss_vals, loss_fig_path):
-    plt.figure()
-    plt.plot(sample_count, loss_vals)
-    plt.grid()
-    plt.title('Camera Pose Loss')
-    plt.xlabel('Number of samples')
-    plt.ylabel('Loss')
-    plt.savefig(loss_fig_path)
 
 
 ##########################

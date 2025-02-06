@@ -2,11 +2,14 @@
 Entry point training and testing multi-scene transformer
 """
 import argparse
+from pyexpat import features
+
 import torch
 import numpy as np
 import json
 import logging
 from util import utils
+from util.plot_utils import plot_loss_func
 import time
 from datasets.CameraPoseDataset import CameraPoseDataset
 from models.pose_losses import CameraPoseLoss
@@ -28,8 +31,14 @@ def test_scene(args, config, model):
 
     stats = np.zeros((len(dataloader.dataset), 3))
 
+    images = []
+    features = []
+
     with torch.no_grad():
         for i, minibatch in enumerate(dataloader, 0):
+            # Saving the image path for visualization
+            img_path = minibatch.pop('img_path', None)[0]
+
             for k, v in minibatch.items():
                 minibatch[k] = v.to(device)
 
@@ -39,8 +48,13 @@ def test_scene(args, config, model):
 
             # Forward pass to predict the pose
             tic = time.time()
-            est_pose = model(minibatch.get('img'))
+            est_pose, x_embs = model(minibatch.get('img'))
             toc = time.time()
+
+            # Save the image and the features for visualization
+            images.append(img_path)
+            features.append(x_embs)
+            # features.append(gt_pose.cpu().detach().numpy().flatten())
 
             # Evaluate error
             posit_err, orient_err = utils.pose_err(est_pose, gt_pose)
@@ -58,6 +72,18 @@ def test_scene(args, config, model):
     logging.info("Median pose error: {:.3f}[m], {:.3f}[deg]".format(np.nanmedian(stats[:, 0]),
                                                                     np.nanmedian(stats[:, 1])))
     logging.info("Mean inference time:{:.2f}[ms]".format(np.mean(stats[:, 2])))
+
+    if args.viz_embs:
+        features_vector = np.zeros((len(features), len(features[0])))
+        for i in range(len(features)):
+            features_vector[i, :] = np.array(features[i])
+
+        from util.plot_utils import cluster_and_visualize_images
+        cluster_and_visualize_images(
+            feature_vectors=features_vector,
+            images=images,
+            n_clusters=6)
+
     return stats
 
 
@@ -76,6 +102,8 @@ if __name__ == "__main__":
     arg_parser.add_argument("--experiment", help="a short string to describe the experiment/commit used")
     arg_parser.add_argument("--test_dataset_id", default=None,
                             help="test set id for testing on all scenes, options: 7scene OR cambridge")
+    arg_parser.add_argument('-v', '--viz_embs', required=False, action='store_true',
+                          help='Indicated whether to visualize the embeddings in 2D clusters')
 
     args = arg_parser.parse_args()
 
@@ -188,6 +216,8 @@ if __name__ == "__main__":
             n_samples = 0
 
             for batch_idx, minibatch in enumerate(dataloader):
+                _ = minibatch.pop('img_path', None)[0]
+
                 for k, v in minibatch.items():
                     minibatch[k] = v.to(device)
                 gt_pose = minibatch.get('pose').to(dtype=torch.float32)
@@ -199,7 +229,7 @@ if __name__ == "__main__":
                 optim.zero_grad()
 
                 # Forward pass to estimate the pose
-                est_pose = model(minibatch.get('img'))
+                est_pose, x_embs = model(minibatch.get('img'))
                 criterion = pose_loss(est_pose, gt_pose)
 
                 # Collect for recoding and plotting
@@ -238,7 +268,7 @@ if __name__ == "__main__":
 
         # Plot the loss function
         loss_fig_path = checkpoint_prefix + "_loss_fig.png"
-        utils.plot_loss_func(sample_count, loss_vals, loss_fig_path)
+        plot_loss_func(sample_count, loss_vals, loss_fig_path)
 
     else:  # Test
         _ = test_scene(args, config, model)

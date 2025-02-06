@@ -31,6 +31,8 @@ def test_scene(args, config, model, verbose=False):
 
     with torch.no_grad():
         for i, minibatch in enumerate(dataloader, 0):
+            _ = minibatch.pop('img_path', None)[0]
+
             for k, v in minibatch.items():
                 minibatch[k] = v.to(device)
 
@@ -38,7 +40,7 @@ def test_scene(args, config, model, verbose=False):
 
             # Forward pass to predict the pose
             tic = time.time()
-            est_pose = model(minibatch.get('img'))
+            est_pose, x_embs = model(minibatch.get('img'))
             toc = time.time()
 
             # Evaluate error

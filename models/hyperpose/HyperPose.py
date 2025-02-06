@@ -87,6 +87,8 @@ class HyperPose(nn.Module):
         ##################################################
         x = self._backbone_forward(samples)
 
+        x_embs = x.cpu().detach().numpy().flatten()
+
         ##################################################
         # Hyper-networks Forward Pass
         ##################################################
@@ -120,4 +122,4 @@ class HyperPose(nn.Module):
         x_rot = torch.add(p_q, p_q_hyper)
 
         est_pose = torch.cat((x_t, x_rot), dim=1)
-        return est_pose
+        return est_pose, x_embs

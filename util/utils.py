@@ -25,6 +25,13 @@ def get_stamp_from_log() -> str:
     """
     return split(logging.getLogger().handlers[0].baseFilename)[-1].replace(".log", "")
 
+def get_log_path() -> str:
+    """
+    Get the path to the log file
+    :return:
+    """
+    return split(logging.getLogger().handlers[0].baseFilename)[0]
+
 
 def create_output_dir(name: str) -> str:
     """

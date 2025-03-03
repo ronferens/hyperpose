@@ -53,6 +53,12 @@ class CameraPoseDataset(Dataset):
 
 
 def read_labels_file(labels_file, dataset_path):
+    """
+    Read the labels file and return the image paths, poses, scenes and scene ids
+    :param labels_file: (str) the path to the labels file
+    :param dataset_path: (str) the path to the dataset
+    :return: (tuple) a tuple of lists of image paths, poses, scenes and scene ids
+    """
     df = pd.read_csv(labels_file)
     imgs_paths = [join(dataset_path, path) for path in df['img_path'].values]
     scenes = df['scene'].values

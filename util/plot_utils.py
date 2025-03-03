@@ -5,18 +5,20 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import cv2
 from tqdm import tqdm
+from util.utils import get_stamp_from_log, get_log_path
+from os.path import join
 
 colors_per_class = {
-    '0' : [254, 202, 87],
-    '1' : [255, 107, 107],
-    '2' : [10, 189, 227],
-    '3' : [255, 159, 243],
-    '4' : [16, 172, 132],
-    '5' : [128, 80, 128],
-    '6' : [87, 101, 116],
-    '7' : [52, 31, 151],
-    '8' : [0, 0, 0],
-    '9' : [100, 100, 255],
+    '0': [254, 202, 87],
+    '1': [255, 107, 107],
+    '2': [10, 189, 227],
+    '3': [255, 159, 243],
+    '4': [16, 172, 132],
+    '5': [128, 80, 128],
+    '6': [87, 101, 116],
+    '7': [52, 31, 151],
+    '8': [0, 0, 0],
+    '9': [100, 100, 255],
 }
 
 
@@ -39,8 +41,7 @@ def cluster_and_visualize_images(feature_vectors, images, n_clusters=3):
     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
     labels = kmeans.fit_predict(scaled_vectors)
 
-    visualize_tsne(images=images, features=scaled_vectors, labels=labels)
-
+    visualize_tsne(images=images, features=scaled_vectors, labels=labels, plot_size=1000, max_image_size=150)
 
 
 # scale and move the coordinates so they fit [0; 1] range
@@ -98,8 +99,15 @@ def compute_plot_coordinates(image, x, y, image_centers_area_size, offset):
 
 
 def visualize_tsne_images(tx, ty, images, labels, plot_size=1000, max_image_size=100):
-    # we'll put the image centers in the central area of the plot
-    # and use offsets to make sure the images fit the plot
+    """
+    Visualizes the T-SNE plot with images as points.
+    :param tx: (numpy array) x-coordinates of the T-SNE plot
+    :param ty: (numpy array) y-coordinates of the T-SNE plot
+    :param images: (numpy array) list of image paths
+    :param labels: (numpy array) list of image labels
+    :param plot_size: (int) size of the plot
+    :param max_image_size: (int) maximum size of the image thumbnail
+    """
     offset = max_image_size // 2
     image_centers_area_size = plot_size - 2 * offset
 
@@ -128,10 +136,22 @@ def visualize_tsne_images(tx, ty, images, labels, plot_size=1000, max_image_size
     plt.imshow(tsne_plot[:, :, ::-1])
     plt.xticks([])
     plt.yticks([])
+
+    # Saving the T-SNE plot to the log directory folder
+    plt.savefig(join(get_log_path(), f'{get_stamp_from_log()}_tsne_plot_k{len(np.unique(labels))}.png'))
+
+    # Showing the plot
     plt.show()
 
 
 def visualize_tsne_points(tx, ty, labels):
+    """
+    Visualizes the T-SNE plot with points colored by class.
+    :param tx: (numpy array) x-coordinates of the T-SNE plot
+    :param ty: (numpy array) y-coordinates of the T-SNE plot
+    :param labels: (numpy array) list of image labels
+    :return: None
+    """
     # initialize matplotlib plot
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -159,25 +179,33 @@ def visualize_tsne_points(tx, ty, labels):
     plt.show()
 
 
-def visualize_tsne(images,features, labels, plot_size=1000, max_image_size=100):
-    # Calculate appropriate perplexity (must be less than the number of samples)
+def visualize_tsne(images, features, labels, plot_size=1000, max_image_size=100):
+    """
+    Visualizes the T-SNE plot with images and points colored by class.
+    :param images: (numpy array) list of image paths
+    :param features: (numpy array) feature vectors corresponding to each image
+    :param labels: (numpy array) list of image labels
+    :param plot_size: (int) size of the plot
+    :param max_image_size: (int) maximum size of the image thumbnail
+    :return: None
+    """
+    # Calculating appropriate perplexity (must be less than the number of samples)
     perplexity = min(30, len(features) - 1)
     tsne = TSNE(n_components=2, perplexity=perplexity).fit_transform(features)
 
-    # extract x and y coordinates representing the positions of the images on T-SNE plot
+    # Extracting x and y coordinates representing the positions of the images on T-SNE plot
     tx = tsne[:, 0]
     ty = tsne[:, 1]
 
-    # scale and move the coordinates so they fit [0; 1] range
+    # Scaling and moving the coordinates so they fit [0; 1] range
     tx = scale_to_01_range(tx)
     ty = scale_to_01_range(ty)
 
-    # visualize the plot: samples as colored points
+    # Visusalizing the plot: samples as colored points
     visualize_tsne_points(tx, ty, labels)
 
-    # visualize the plot: samples as images
+    # Visualizing the plot: samples as images
     visualize_tsne_images(tx, ty, images, labels, plot_size=plot_size, max_image_size=max_image_size)
-
 
 
 def plot_loss_func(sample_count, loss_vals, loss_fig_path):
@@ -188,4 +216,3 @@ def plot_loss_func(sample_count, loss_vals, loss_fig_path):
     plt.xlabel('Number of samples')
     plt.ylabel('Loss')
     plt.savefig(loss_fig_path)
-

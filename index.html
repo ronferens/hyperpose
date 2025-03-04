@@ -69,7 +69,8 @@
         <div class="container is-max-desktop">
             <div class="columns is-centered">
                 <div class="column has-text-centered">
-                    <h1 class="title is-1 publication-title">HyperPose: Hypernetwork-Infused Camera Pose Localization and an Extended Cambridge Landmarks Dataset</h1>
+                    <h1 class="title is-1 publication-title">HyperPose: Hypernetwork-Infused Camera Pose Localization
+                        and an Extended Cambridge Landmarks Dataset</h1>
                     <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://ronferens.github.io/">Ron Ferens</a>,</span>
@@ -133,27 +134,21 @@
                 <h2 class="title is-3">Abstract</h2>
                 <div class="content has-text-justified">
                     <p>
-                        Camera pose regression methods apply a single forward
-                        pass to the query image to estimate the camera pose. As
-                        such, they offer a fast and light-weight alternative to traditional localization schemes based
-                        on image retrieval. Pose
-                        regression approaches simultaneously learn two regression
-                        tasks, aiming to jointly estimate the camera position and
-                        orientation using a single embedding vector computed by a
-                        convolutional backbone. We propose an attention-based approach for pose regression, where the
-                        convolutional activation maps are used as sequential inputs. Transformers are
-                        applied to encode the sequential activation maps as latent
-                        vectors, used for camera pose regression. This allows us to
-                        pay attention to spatially-varying deep features. Using two
-                        Transformer heads, we separately focus on the features for
-                        camera position and orientation, based on how informative
-                        they are per task. Our proposed approach is shown to compare favorably to contemporary pose
-                        regressors schemes
-                        *Denotes equal contribution
-                        and achieves state-of-the-art accuracy across multiple outdoor and indoor benchmarks. In
-                        particular, to the best of
-                        our knowledge, our approach is the only method to attain
-                        sub-meter average accuracy across outdoor scenes.
+                        In this work, we propose <b><i>HyperPose</i></b>, which utilizes hypernetworks in absolute
+                        camera
+                        pose regressors. The inherent appearance variations in natural scenes, attributable to
+                        environmental conditions, perspective, and lighting, induce a significant domain disparity
+                        between the training and test datasets. This disparity degrades the precision of contemporary
+                        localization networks. To mitigate this, we advocate for incorporating hypernetworks into
+                        single-scene and multiscene camera pose regression models. During inference, the hypernetwork
+                        dynamically computes adaptive weights for the localization regression heads based on the
+                        particular input image, effectively narrowing the domain gap. Using indoor and outdoor datasets,
+                        we evaluate the HyperPose methodology across multiple established absolute pose regression
+                        architectures. We also introduce and share the <b><i>Extended Cambridge Landmarks
+                        (ECL)</i></b></i></b>, a novel
+                        localization dataset, based on the Cambridge Landmarks dataset, showing it in multiple seasons
+                        with significantly varying appearance conditions. Our empirical experiments demonstrate that
+                        HyperPose yields notable performance enhancements for single- and multi-scene architectures.
                     </p>
                 </div>
             </div>
@@ -165,11 +160,11 @@
 <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
         <h2 class="title">BibTeX</h2>
-        <pre><code>@article{shavit2021paying,
-          title={Paying attention to activation maps in camera pose regression. In arxiv preprint},
-          author={Shavit, Yoli and Ferens, Ron and Keller, Yosi},
-          journal={arXiv preprint arxiv:2103.11477},
-          year={2021}
+        <pre><code>@article{ferens2023hyperpose,
+            title={Hyperpose: Camera pose localization using attention hypernetworks},
+            author={Ferens, Ron and Keller, Yosi},
+            journal={arXiv preprint arXiv:2303.02610},
+            year={2023}
         }</code></pre>
     </div>
 </section>

@@ -13,6 +13,7 @@ from models.pose_losses import CameraPoseLoss
 from models.pose_regressors import get_model
 from os.path import join, dirname, basename
 from torch.utils.tensorboard import SummaryWriter
+import pandas as pd
 
 
 def test_scene(args, config, model):
@@ -28,8 +29,16 @@ def test_scene(args, config, model):
 
     stats = np.zeros((len(dataloader.dataset), 3))
 
+    images = []
+    features = pd.DataFrame(columns=["img_filename",
+                                     "est_x", "est_y", "est_z", "est_w", "est_qx", "est_qy", "est_qz",
+                                     "gt_x", "gt_y", "gt_z", "gt_qw", "gt_qx", "gt_qy", "gt_qz"])
+
     with torch.no_grad():
         for i, minibatch in enumerate(dataloader, 0):
+            # Saving the image path for visualization
+            img_path = minibatch.pop('img_path', None)[0]
+
             for k, v in minibatch.items():
                 minibatch[k] = v.to(device)
 
@@ -42,6 +51,27 @@ def test_scene(args, config, model):
             est_pose = model(minibatch.get('img'))
             toc = time.time()
 
+            # Save the image and the features for visualization
+            images.append(img_path)
+
+            new_row = pd.DataFrame([{"img_filename": img_path,
+                                     "est_x": est_pose[0, 0].cpu().detach().numpy(),
+                                     "est_y": est_pose[0, 1].cpu().detach().numpy(),
+                                     "est_z": est_pose[0, 2].cpu().detach().numpy(),
+                                     "est_qw": est_pose[0, 3].cpu().detach().numpy(),
+                                     "est_qx": est_pose[0, 4].cpu().detach().numpy(),
+                                     "est_qy": est_pose[0, 5].cpu().detach().numpy(),
+                                     "est_qz": est_pose[0, 6].cpu().detach().numpy(),
+                                     "gt_x": gt_pose[0, 0].cpu().detach().numpy(),
+                                     "gt_y": gt_pose[0, 1].cpu().detach().numpy(),
+                                     "gt_z": gt_pose[0, 2].cpu().detach().numpy(),
+                                     "gt_qw": gt_pose[0, 3].cpu().detach().numpy(),
+                                     "gt_qx": gt_pose[0, 4].cpu().detach().numpy(),
+                                     "gt_qy": gt_pose[0, 5].cpu().detach().numpy(),
+                                     "gt_qz": gt_pose[0, 6].cpu().detach().numpy(),
+                                     }])
+            features = pd.concat([features, new_row], ignore_index=True)
+
             # Evaluate error
             posit_err, orient_err = utils.pose_err(est_pose, gt_pose)
 
@@ -52,6 +82,8 @@ def test_scene(args, config, model):
 
             logging.info("Pose error: {:.3f}[m], {:.3f}[deg], inferred in {:.2f}[ms]".format(
                 stats[i, 0], stats[i, 1], stats[i, 2]))
+
+    features.to_csv(join(args.output_path, "test_results.csv"), index=False)
 
     # Record overall statistics
     logging.info("Performance of {} on {}".format(args.checkpoint_path, args.labels_file))

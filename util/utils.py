@@ -5,7 +5,6 @@ import json
 from os.path import join, exists, split, realpath
 import time
 from os import makedirs, getcwd, listdir
-from os.path import isfile
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
@@ -93,6 +92,29 @@ def get_checkpoint_list(path: str, ckpt_start_index: int = 0) -> Dict:
 ##########################
 # Evaluation utils
 ##########################
+def quaternion_to_rotation_matrix(qx, qy, qz, qw):
+    """
+    Converts a quaternion (qx, qy, qz, qw) into a 3x3 rotation matrix.
+
+    :param qx: x-component of the quaternion
+    :param qy: y-component of the quaternion
+    :param qz: z-component of the quaternion
+    :param qw: w-component (scalar) of the quaternion
+    :return: 3x3 NumPy rotation matrix
+    """
+    # Normalize quaternion to avoid numerical errors
+    norm = np.sqrt(qx ** 2 + qy ** 2 + qz ** 2 + qw ** 2)
+    qx, qy, qz, qw = qx / norm, qy / norm, qz / norm, qw / norm
+
+    # Compute rotation matrix elements
+    rot_mat = np.array([
+        [1 - 2 * (qy ** 2 + qz ** 2), 2 * (qx * qy - qz * qw), 2 * (qx * qz + qy * qw)],
+        [2 * (qx * qy + qz * qw), 1 - 2 * (qx ** 2 + qz ** 2), 2 * (qy * qz - qx * qw)],
+        [2 * (qx * qz - qy * qw), 2 * (qy * qz + qx * qw), 1 - 2 * (qx ** 2 + qy ** 2)]
+    ])
+
+    return rot_mat
+
 def pose_err(est_pose, gt_pose):
     """
     Calculate the position and orientation error given the estimated and ground truth pose(s

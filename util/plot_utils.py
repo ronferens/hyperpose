@@ -41,7 +41,7 @@ def cluster_and_visualize_images(feature_vectors, images, n_clusters=3):
     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
     labels = kmeans.fit_predict(scaled_vectors)
 
-    visualize_tsne(images=images, features=scaled_vectors, labels=labels, plot_size=1000, max_image_size=150)
+    visualize_tsne(images=images, features=scaled_vectors, labels=labels, plot_size=2000, max_image_size=300)
 
 
 # scale and move the coordinates so they fit [0; 1] range

@@ -5,6 +5,8 @@
 
 Bar-Ilan University
 
+<a href="https://openaccess.thecvf.com/content/CVPR2025/papers/Ferens_HyperPose_Hypernetwork-Infused_Camera_Pose_Localization_and_an_Extended_Cambridge_Landmarks_CVPR_2025_paper.pdf"><img src='https://img.shields.io/badge/CVPR_2025-HyperPose-blue' alt='CVPR Paper'></a>
+<a href="https://cvpr.thecvf.com/media/cvpr-2025/Slides/34777_9mDm1a7.pdf"><img src='https://img.shields.io/badge/CVPR_2025-Slides-blue' alt='CVPR Paper'></a>
 <a href="[https://arxiv.org/abs/2103.11477](https://arxiv.org/abs/2303.02610)"><img src='https://img.shields.io/badge/arXiv-HyperPose-red' alt='Paper PDF'></a>
 <a href='https://ronferens.github.io/hyperpose/'><img src='https://img.shields.io/badge/Project_Page-HyperPose-green' alt='Project Page' target="_blank"></a>
 </div>
